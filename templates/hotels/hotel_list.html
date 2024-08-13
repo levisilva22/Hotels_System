@@ -1,0 +1,17 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}Lista de Hotéis{% endblock %}
+
+{% block content %}
+<h2>Encontre o Hotel Ideal</h2>
+<div class="hotel-list">
+    {% for hotel in hotels %}
+        <div class="hotel-card">
+            <h3><a href="{% url 'hotels:hotel_detail' hotel.pk %}">{{ hotel.name }}</a></h3>
+            <p>{{ hotel.address }}</p>
+            <p>{{ hotel.description|truncatewords:20 }}</p>
+            <a href="{% url 'hotels:hotel_detail' hotel.pk %}" class="btn">Ver Mais</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
