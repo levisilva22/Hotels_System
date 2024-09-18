@@ -1,0 +1,16 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block title %}Pagemento vi pix{% endblcok title %}
+
+
+{% block content %}
+     <h1>Pagamento via Pix</h1>
+
+    <p>Use o QR Code abaixo para realizar o pagamento:</p>
+
+    <img src="/img/,{{ gerarqrcode }}" alt="QR Code Pix">
+
+    <p>Nome: {{ usuario_perfil.first_name }} {{ usuario_perfil.last_name }}</p>
+    <p>Valor: {{ usuario_reserva.preco_total }}</p>
+
+{% endblock content %}

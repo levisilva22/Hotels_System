@@ -1,0 +1,49 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+
+{% block content %}
+
+    <div class="container">
+        <h1>Registrar Hotel</h1>
+
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+
+        <form method="post" action="{% url 'cadastro_hotel:registrar_hotel' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_nome">Nome do Hotel:</label>
+                {{ form.nome }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_descricao">Adicione uma descrição para o seu hotel:</label>
+                {{ form.descricao }}
+            </div>
+
+            <div class="form-group">
+                <label for="comodidades">Comodidades:</label>
+                <textarea id="comodidades" name="comodidades" placeholder="Lista de comodidades separadas por vírgula">
+
+                </textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="id_imagens">Imagens do hotel:</label>
+                {{ form.img }}
+            </div>
+
+            <button type="submit" class="btn">Registrar</button>
+        </form>
+
+    </div>>
+
+{% endblock content %}

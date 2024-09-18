@@ -1,0 +1,15 @@
+{% extends "cadastro_hotel/base.html" %}
+
+{% block content %}
+
+    <div class="login-container">
+        <div class="form-section">
+            <h1>Faça o seu Login</h1>
+            <form action="{% url 'users:login' %}" method="post" class="form-client">
+                {% csrf_token %}
+                {{ cliente_form.as_p }}
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block content %}
+<h2>Perfil de {{ usuario.username }}</h2>
+
+
+<form  action ="{% url 'users:perfil' usuario.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+
+    {% if form_hotel %}
+        <h3>Editar Hotel</h3>
+        {{ form_hotel.as_p }}
+    {% endif %}
+
+
+    {% if form_reserva %}
+        <h3>Cancelar Reserva</h3>
+        {{ form_reserva.as_p }}
+    {% endif %}
+
+    <button type="submit">Salvar</button>
+</form>
+<a href="{% url 'pagamento:add_cartaocredito'  %}">Adicionar cartão de crédito</a>
+<a href="{% url 'pagamento:add_cartaodebito' %}">adicionar cartão de débito</a>
+{% endblock %}

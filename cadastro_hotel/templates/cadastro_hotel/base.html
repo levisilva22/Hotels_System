@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Booking Clone{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'cadastro_hotel/styles.css' %}">
+    <!-- Você pode adicionar fontes e ícones aqui -->
+</head>
+<body>
+    <!-- Cabeçalho / Navbar -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="">BookingClone</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'cadastro_hotel:lista_hotel' %}">Início</a></li>
+                    <li><a href="">Hotéis</a></li>
+                    <li><a href="">Sobre</a></li>
+                    <li><a href="">Contato</a></li>
+                    <li><a href="{% url 'cadastro_hotel:registrar_hotel' %}">Registrar Hotel</a> </li>
+
+                </ul>
+            </nav>
+           <div class="auth-links">
+                {% if user.is_authenticated %}
+                    <span class="user-greeting">Olá, {{ user.username }}</span>
+                    <li><a href="{% url 'users:perfil' user.id %}">Perfil</a></li>
+                    <a href="{% url 'users:logout' %}">Sair</a>
+                {% else %}
+                    <a href="{% url 'users:login' %}">Login</a>
+                    <a href="{% url 'users:register' %}">Cadastro</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main>
+        <div class="container">
+            {% block content %}
+            <!-- O conteúdo específico de cada página será renderizado aqui -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 BookingClone. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

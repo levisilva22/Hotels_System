@@ -1,0 +1,50 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block title %}{{ hotel.nome}}{% endblock %}
+
+{% block content %}
+
+    <div class="detalhe-hotel">
+        <h2>{{ hotel.name }}</h2>
+        <p><strong>Endereço:</strong> {{ hotel.endereco }}</p>
+        <p><strong>Descrição:</strong> {{ hotel.descricao }}</p>
+        <p><strong>Comodidades:</strong> {{ hotel.comodidades }}</p>
+        <div class="imagem-hotel">
+            {% if hotel.img %}
+                <img src="{{ hotel.img.url }}" alt="Imagem do Hotel">
+            {% else %}
+                <p>Nenhuma imagem do hotel disponível</p>
+            {% endif %}
+        </div>
+
+        <h3>Quartos Disponíveis</h3>
+
+       <div class="quarto-lista">
+            {% if hotel.quartos.all %}
+                {% for quarto in hotel.quartos.all %}
+                    <div class="cartao-quarto">
+
+                        {% if quarto.imagem %}
+                            <img src="{{ quarto.imagem.url }}" alt="Imagem do quarto">
+                        {% else %}
+                            <p>Nenhuma imagem disponível</p>
+                        {% endif %}
+
+                        <h4>{{ quarto.tipo_quarto }}</h4>
+                        <p>Preço: R$ {{ quarto.preco_por_noite }}</p>
+                        <a href="{% url 'cadastro_hotel:reserva_quarto' quarto.pk %}" class="btn">Reservar</a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>Não há quartos disponíveis.</p>
+
+            {% endif %}
+
+        </div>
+</div>
+
+{% endblock content %}

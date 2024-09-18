@@ -1,0 +1,31 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block title %}Reservar Quarto{% endblock %}
+
+{% block content %}
+<h2>Reservar Quarto: {{ quarto.tipo_quarto }} em {{ quarto.hotel.nome }}</h2>
+
+<p>Capacidade: {{ quarto.capacidade }} pessoas</p>
+<p>Preço por noite: R$ {{ quarto.preco_por_noite}}</p>
+
+
+
+<div class="alert alert-danger">
+    <ul>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </ul>
+</div>
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+</form>
+{% endblock %}

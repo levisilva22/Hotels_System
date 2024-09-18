@@ -1,0 +1,12 @@
+{% extends "cadastro_hotel/base.html" %}
+
+{% block content %}
+
+    <form action="{% url 'users:register' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Registrar</button>
+        <input type="hidden" name="next" value="{% url 'cadastro_hotel:lista_hotel' %}"/>
+    </form>
+
+{% endblock content %}

@@ -1,0 +1,70 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block content %}
+    <h2>Escolher Forma de Pagamento</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <h3>Escolha o Método de Pagamento</h3>
+
+        <label>
+            <input type="radio" name="metodo_de_pagamento" value="CREDIT_CARD" required onclick="togglePaymentOptions('credit')">
+            Cartão de Crédito
+        </label>
+        <br>
+        <div id="cartao_credito_select" style="display:none;">
+            <select name="cartao_id" id="cartao_credito">
+                <option value="">Selecione o Cartão de Crédito</option>
+                {% for cartao in cartao_credito %}
+                    <option value="{{ cartao.id }}">{{ cartao.cardholder_name }} - Final {{ cartao.card_number|slice:"-4:" }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </div>
+
+        <label>
+            <input type="radio" name="metodo_de_pagamento" value="DEBIT_CARD" required onclick="togglePaymentOptions('debit')">
+            Cartão de Débito
+        </label>
+        <br>
+        <div id="cartao_debito_select" style="display:none;">
+            <select name="cartao_id" id="cartao_debito">
+                <option value="">Selecione o Cartão de Débito</option>
+                {% for cartao in cartao_debito %}
+                    <option value="{{ cartao.id }}">{{ cartao.cardholder_name }} - Final {{ cartao.card_number|slice:"-4:" }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </div>
+
+        <label>
+            <input type="radio" name="metodo_de_pagamento" value="PIX" required onclick="togglePaymentOptions('pix')">
+            PIX
+        </label>
+        <br><br>
+
+        <button type="submit">Pagar</button>
+    </form>
+
+    <script>
+        function togglePaymentOptions(selectedMethod) {
+
+            document.getElementById('cartao_credito_select').style.display = 'none';
+            document.getElementById('cartao_debito_select').style.display = 'none';
+
+
+            if (selectedMethod === 'credit') {
+                document.getElementById('cartao_credito_select').style.display = 'block';
+            } else if (selectedMethod === 'debit') {
+                document.getElementById('cartao_debito_select').style.display = 'block';
+            }
+        }
+    </script>
+{% endblock content %}

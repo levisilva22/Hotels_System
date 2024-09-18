@@ -1,0 +1,19 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h1 style="color: green;">Pagamento Realizado com Sucesso!</h1>
+        <p>Obrigado, seu pagamento foi processado com sucesso.</p>
+        <p><strong>Detalhes da Reserva:</strong></p>
+        <ul style="list-style: none;">
+            <li><strong>Nome do Hotel:</strong> {{ reserva.hotel.nome }}</li>
+            <li><strong>Quarto Reservado:</strong> {{ reserva.quarto.nome }}</li>
+            <li><strong>Data de Entrada:</strong> {{ reserva.check_in }}</li>
+            <li><strong> Data de Saída:</strong> {{ reserva.check_out }}</li> <li>
+            <strong>Valor Total:</strong> R$ {{ reserva.preco_total }}</li>
+        </ul>
+        <br>
+        <a href="{% url 'cadastro_hotel:lista_hotel' %}" style="text-decoration: none; color: white; background-color: #0071c2;
+        padding: 10px 20px; border-radius: 5px;"> Voltar para Lista de Hotéis </a>
+    </div>
+{% endblock %}

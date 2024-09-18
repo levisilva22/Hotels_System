@@ -1,0 +1,16 @@
+    {% extends 'cadastro_hotel/base.html' %}
+
+    {% block content %}
+
+        <h3>Confirmar Reserva</h3>
+
+            <form action="{% url 'cadastro_hotel:confirmar_reserva' reserva.id %}" method="post">
+                {% csrf_token %}
+                {{ form_reserva.as_p }}
+            </form>
+
+        <a href="{% url 'pagamento:pagamento' pagamento_id%}">Ir para pagamento</a>
+        <a href="{% url 'cadastro_hotel:reserva_quarto' reserva.quarto.id %}">Voltar</a>
+
+
+    {% endblock content %}

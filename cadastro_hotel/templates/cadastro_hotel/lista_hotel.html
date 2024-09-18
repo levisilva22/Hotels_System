@@ -1,0 +1,19 @@
+{% extends 'cadastro_hotel/base.html' %}
+
+{% block title %}Lista de Hotéis{% endblock %}
+
+{% block content %}
+<h2>Encontre o Hotel Ideal</h2>
+<div class="lista-hotel">
+    {% for hotel in hotel %}
+        <div class="hotel-card">
+            <h3><a href="{% url 'cadastro_hotel:detalhe_hotel' hotel.pk %}">{{ hotel.nome }}</a></h3>
+            <p>{{ hotel.endereco }}</p>
+            <p>{{ hotel.descricao|truncatewords:20 }}</p>
+            <a href="{% url 'cadastro_hotel:detalhe_hotel' hotel.pk %}" class="btn">Ver Mais</a>
+        </div>
+    {% empty %}
+        <h3> Não há Hotéis adicionados </h3>
+    {% endfor %}
+</div>
+{% endblock %}
