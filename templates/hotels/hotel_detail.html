@@ -1,0 +1,24 @@
+{% extends 'hotels/base.html' %}
+
+{% block title %}{{ hotel.name }}{% endblock %}
+
+{% block content %}
+<div class="hotel-detail">
+    <h2>{{ hotel.name }}</h2>
+    <p><strong>Endereço:</strong> {{ hotel.address }}</p>
+    <p><strong>Descrição:</strong> {{ hotel.description }}</p>
+    <p><strong>Comodidades:</strong> {{ hotel.amenities }}</p>
+
+    <h3>Quartos Disponíveis</h3>
+    <div class="room-list">
+        {% for room in hotel.rooms.all %}
+            <div class="room-card">
+                <img src="{{ room.photo.url }}" alt="Imagem do Quarto">
+                <h4>{{ room.room_type }}</h4>
+                <p>Preço: R$ {{ room.price_per_night }}</p>
+                <a href="{% url 'book_room' room.id %}" class="btn">Reservar</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
