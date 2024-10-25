@@ -7,8 +7,9 @@
             <form action="{% url 'cadastro_hotel:confirmar_reserva' reserva.id %}" method="post">
                 {% csrf_token %}
                 {{ form_reserva.as_p }}
+                R$ {{price}}
             </form>
-
+            
         <a href="{% url 'pagamento:pagamento' pagamento_id%}">Ir para pagamento</a>
         <a href="{% url 'cadastro_hotel:reserva_quarto' reserva.quarto.id %}">Voltar</a>
 

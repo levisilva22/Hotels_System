@@ -3,47 +3,69 @@
 
 {% block content %}
 
-    <div class="container">
-        <h1>Registrar Hotel</h1>
+<div class="container">
+    <h1>Registrar Hotel</h1>
 
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-
+    <div class="form-container">
+        <!-- Formulário do Hotel -->
         <form method="post" action="{% url 'cadastro_hotel:registrar_hotel' %}" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="form-group">
                 <label for="id_nome">Nome do Hotel:</label>
-                {{ form.nome }}
+                {{ form_hotel.nome }}
             </div>
 
             <div class="form-group">
                 <label for="id_descricao">Adicione uma descrição para o seu hotel:</label>
-                {{ form.descricao }}
+                {{ form_hotel.descricao }}
             </div>
 
             <div class="form-group">
                 <label for="comodidades">Comodidades:</label>
-                <textarea id="comodidades" name="comodidades" placeholder="Lista de comodidades separadas por vírgula">
-
-                </textarea>
+                <textarea id="comodidades" name="comodidades" placeholder="Lista de comodidades separadas por vírgula"></textarea>
             </div>
 
             <div class="form-group">
                 <label for="id_imagens">Imagens do hotel:</label>
-                {{ form.img }}
+                {{ form_hotel.img }}
             </div>
 
             <button type="submit" class="btn">Registrar</button>
         </form>
 
-    </div>>
+        <!-- Formulário dos Quartos -->
+        <form method="post" action="{% url 'cadastro_hotel:registrar_hotel'%}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h3>Adicionar quartos para o hotel {{hotel.nome}}</h3>
+
+            <div id="quartos-container">
+                {{ formset.management.form }}
+
+                {% for form in formset %}
+                    <div>
+                        <h4>Quarto {{forloop.counter}}</h4>
+                        {{room.as_p}}
+                    </div>
+                {%endfor%}
+            </div>
+
+            <input type="hidden" id="total_quartos" name="total_quartos" value="1">
+
+            <button type="button" onclick="adicionarQuarto()">Adicionar Quarto</button>
+            <button type="submit">Salvar Hotel e Quartos</button>
+        </form>
+    </div>
+</div>
+
 
 {% endblock content %}

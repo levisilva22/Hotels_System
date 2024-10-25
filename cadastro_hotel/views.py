@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import ReservaForm, HotelForm
+from .forms import ReservaForm, HotelForm, RoomForm
 from .models import Hotel, Quarto, Reserva
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-
-
+from django.forms import formset_factory
+from .dynamic_pricing import Calculate, HighSeason, Discount
+from datetime import datetime
+from django.contrib import messages
 
 def lista_hotel(request):
     hotel = Hotel.objects.all()
@@ -54,26 +56,44 @@ def check_in(request, pk):
     return render(request, 'cadastro_hotel/reserva_quarto.html', context)
 
 
+
 @login_required
 def hotel_registrar(request):
 
+    RoomFormSet = formset_factory(RoomForm, extra = 1)
+    
     if request.method == 'POST':
-        form = HotelForm(request.POST, request.FILES, user=request.user)  # Passe o usuário para o formulário
+        
+        # Passe o usuário para o formulário
+        form_hotel = HotelForm(request.POST, request.FILES, user=request.user)  
+        
+        # Cria um conjunto de formulários (formset) para os quartos com os dados da requisição POST e arquivos
+        form_room = RoomFormSet(request.POST, request.FILES) 
 
-        if form.is_valid():
-            hotel = form.save(commit=False)
-            hotel.user = request.user  # Associa o usuário logado ao hotel
+        if form_hotel.is_valid() and form_room.is_valid():
+            
+            # Associa o usuário logado ao hotel
+            hotel = form_hotel.save(commit=False)
+            hotel.user = request.user  
             hotel.save()
-
+            
+            #define o atributo de quartos a hotel
+            quartos = form_room.save(commit=False)
+            quartos.hotel = hotel
+            quartos.save()
+            
             return HttpResponseRedirect(reverse('cadastro_hotel:lista_hotel'))
 
         else:
             raise ValidationError('Erro ao processar formulário!')
 
-    else:
-        form = HotelForm(user=request.user)  # Inicializa o formulário com o usuário logado
 
-    context = {'form': form}
+    else:
+        # Inicializa o formulário com o usuário logado
+        form_hotel = HotelForm(user=request.user)  
+        form_room = RoomFormSet()
+
+    context = {'form_hotel': form_hotel, 'room': form_room}
     return render(request, 'cadastro_hotel/registrar_hotel.html', context)
 
 
@@ -83,22 +103,41 @@ def confirmar_reserva(request, pk):
 
     if not request.user.is_authenticated or not request.user.is_cliente:
         return redirect('users:login')
+    
+    calculate = Calculate() # Cria uma instância de Calculate
+    calculate.add_strategy(HighSeason()) # Adiciona a estratégia HighSeason
+    calculate.add_strategy(Discount())  # Adiciona a estratégio Discount
 
     if request.method == 'POST':
         form_reserva = ReservaForm(request.POST, instance=reserva)
 
         if form_reserva.is_valid():
-            form_reserva.save()
+            reserve = form_reserva(commit=False) # Permite alterar o formulário antes de salva
+            reserve.user = request.user # Define a o usuário para a reserva
+            total_price = reserve.preco_total() # Chama o método preco_total, atualizando o total_price
+
+            date_reserve = reserve.cleaned_data['check_in'] # Pega a data registrada no formulário 
+            price_dynamic = calculate.apply_calculation(total_price, date_reserve) # Aplica o calculo do preço dinâmico
+            reserva.quarto.preco_por_noite = price_dynamic # Atualiza o valor do quarto depois de verificar o valor dinâmico
+            
+            reserve.save()
 
             return HttpResponseRedirect(reverse('pagamento:validar_pagamento', args=[reserva.id]))
 
     else:
         form_reserva = ReservaForm(instance=reserva)
 
-    for field in form_reserva.fields.values():
-        field.widget.attrs['disabled'] = True
+    price = reserva.preco_total()
 
-    context = {'form_reserva': form_reserva, 'pagamento_id': reserva.id, 'reserva': reserva}
+    price_dynamic = calculate.apply_calculation(price, datetime.now().date())
+
+    context = {
+            'form_reserva': form_reserva, 
+            'pagamento_id': reserva.id, 
+            'reserva': reserva,
+            'price': price_dynamic
+        }
+    
     return render(request, 'cadastro_hotel/confirmar_reserva.html', context)
 
 

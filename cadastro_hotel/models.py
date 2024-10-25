@@ -32,9 +32,9 @@ class Quarto(models.Model):
             soma = [avaliacoes.avaliacao for avaliacoes in avaliacoes / avaliacoes.count()]
             return sum(soma)
         return 0
-
+    
     def __str__(self):
-        return f"{self.hotel.nome} | Quarto {self.numero}"
+        return f" Quarto {self.numero}"
 
 
 class Avaliacao(models.Model):

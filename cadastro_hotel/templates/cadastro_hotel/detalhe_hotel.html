@@ -20,7 +20,7 @@
         <h3>Quartos Disponíveis</h3>
 
        <div class="quarto-lista">
-            {% if hotel.quartos.all %}
+            {% if hotel.quartos %}
                 {% for quarto in hotel.quartos.all %}
                     <div class="cartao-quarto">
 
@@ -30,7 +30,7 @@
                             <p>Nenhuma imagem disponível</p>
                         {% endif %}
 
-                        <h4>{{ quarto.tipo_quarto }}</h4>
+                        <h4>{{ quarto.RoomType}}</h4>
                         <p>Preço: R$ {{ quarto.preco_por_noite }}</p>
                         <a href="{% url 'cadastro_hotel:reserva_quarto' quarto.pk %}" class="btn">Reservar</a>
 

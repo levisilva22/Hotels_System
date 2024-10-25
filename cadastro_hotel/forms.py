@@ -1,7 +1,6 @@
 from django import forms
-from .models import Reserva, Hotel
+from .models import Reserva, Hotel, Quarto
 from django.core.exceptions import ValidationError
-from pixqrcodegen import Payload
 
 
 class ReservaForm(forms.ModelForm):
@@ -119,3 +118,12 @@ class PagamentoForm(forms.Form):
             # Se precisar salvar dados adicionais, você pode adicionar essa lógica aqui
 
         return payload
+
+class RoomForm(forms.ModelForm):
+    
+    class Meta:
+        model = Quarto
+        fields = ['tipo_quarto', 'numero', 'capacidade', 'preco_por_noite', 'img']
+        labels = {"tipo_quarto": "Categoria",
+                  "capacidade": "Capacidade",
+                  "preco_por_noite": "Preço",}
