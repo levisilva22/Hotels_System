@@ -6,9 +6,9 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.forms import formset_factory
-from .dynamic_pricing import Calculate, HighSeason, Discount
+from ..dynamic_pricing import Calculate, HighSeason, Discount
 from datetime import datetime
-from django.contrib import messages
+
 
 def lista_hotel(request):
     hotel = Hotel.objects.all()
