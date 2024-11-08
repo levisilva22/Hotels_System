@@ -6,14 +6,25 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.forms import formset_factory
-from ..dynamic_pricing import Calculate, HighSeason, Discount
+from dynamic_pricing import Calculate, HighSeason, Discount
 from datetime import datetime
+from singleton import HotelListingManager
+from command import Invoker, ReservaCommand, ResevationCanceled
 
-
+""" Padrão de projeto Singleton implementado"""
 def lista_hotel(request):
-    hotel = Hotel.objects.all()
-    context = {'hotel': hotel}
+    
+ 
+    hotel_list = HotelListingManager()
+    hotel_list.hotels
+    
+    context = {
+        'hotels': hotel_list.hotels  
+    }
+
+    # Renderize o template com a lista de hotéis
     return render(request, "cadastro_hotel/lista_hotel.html", context)
+
 
 
 def detalhe_hotel(request, pk):
@@ -97,6 +108,7 @@ def hotel_registrar(request):
     return render(request, 'cadastro_hotel/registrar_hotel.html', context)
 
 
+""" Padrão de projeto Strategy e Command impementados nessa view"""
 @login_required
 def confirmar_reserva(request, pk):
     reserva = get_object_or_404(Reserva, id=pk)
@@ -109,11 +121,17 @@ def confirmar_reserva(request, pk):
     calculate.add_strategy(Discount())  # Adiciona a estratégio Discount
 
     if request.method == 'POST':
+        invoker = Invoker()
         form_reserva = ReservaForm(request.POST, instance=reserva)
 
         if form_reserva.is_valid():
-            reserve = form_reserva(commit=False) # Permite alterar o formulário antes de salva
-            reserve.user = request.user # Define a o usuário para a reserva
+            reserve = form_reserva.save(commit=False) # Permite alterar o formulário antes de salva
+            reserve_command = ReservaCommand(request.user, reserve.quarto) # Devine um comando a ser executado
+
+            invoker.set_command(reserve_command) # Seta a reserva com o comando apropriado
+            invoker.execute_command() #executa o comando da reserva
+            
+
             total_price = reserve.preco_total() # Chama o método preco_total, atualizando o total_price
 
             date_reserve = reserve.cleaned_data['check_in'] # Pega a data registrada no formulário 
@@ -128,7 +146,6 @@ def confirmar_reserva(request, pk):
         form_reserva = ReservaForm(instance=reserva)
 
     price = reserva.preco_total()
-
     price_dynamic = calculate.apply_calculation(price, datetime.now().date())
 
     context = {

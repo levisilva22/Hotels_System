@@ -5,15 +5,16 @@
 {% block content %}
 <h2>Encontre o Hotel Ideal</h2>
 <div class="lista-hotel">
-    {% for hotel in hotel %}
-        <div class="hotel-card">
-            <h3><a href="{% url 'cadastro_hotel:detalhe_hotel' hotel.pk %}">{{ hotel.nome }}</a></h3>
+    {% if hotels %}
+        {% for hotel in hotels %}
+            <h3><a href="{% url 'cadastro_hotel:detalhe_hotel' hotel.id %}">{{ hotel.nome }}</a></h3>
             <p>{{ hotel.endereco }}</p>
             <p>{{ hotel.descricao|truncatewords:20 }}</p>
-            <a href="{% url 'cadastro_hotel:detalhe_hotel' hotel.pk %}" class="btn">Ver Mais</a>
-        </div>
-    {% empty %}
+            <a href="{% url 'cadastro_hotel:detalhe_hotel' hotel.id %}">Ver mais</a>
+        {% endfor %}
+    {% else %}
         <h3> Não há Hotéis adicionados </h3>
-    {% endfor %}
+     {% endif %}
 </div>
 {% endblock %}
+
