@@ -41,7 +41,9 @@ Analytics and Reporting:
 Generating reports on bookings, occupancy rates, and revenue.
 =================================================================
 
-Patterns Project
+
+
+## Patterns Project
 
 Foram implementados três padrões de projeto Strategy - Command - Singleton
 
@@ -58,4 +60,4 @@ A ideia é apenas deixar uma instância da listagem de hotel, para que fique mai
 quando outros usuários criem um hotel, assim os hotéis criados possuiram apenas um instância 
 mantendo uma facilidade para manter o controle.
 
-=========================================================================
+
