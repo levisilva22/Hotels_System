@@ -4,22 +4,25 @@
 
 {% block content %}
 
-    <div class="detalhe-hotel">
-        <h2>{{ hotel.name }}</h2>
-        <p><strong>Endereço:</strong> {{ hotel.endereco }}</p>
-        <p><strong>Descrição:</strong> {{ hotel.descricao }}</p>
-        <p><strong>Comodidades:</strong> {{ hotel.comodidades }}</p>
-        <div class="imagem-hotel">
-            {% if hotel.img %}
-                <img src="{{ hotel.img.url }}" alt="Imagem do Hotel">
-            {% else %}
-                <p>Nenhuma imagem do hotel disponível</p>
-            {% endif %}
+    <div class="room-section">
+        <div class="hotel-info">
+            <h2>{{ hotel.name }}</h2>
+            <p><strong>Endereço:</strong> {{ hotel.endereco }}</p>
+            <p><strong>Descrição:</strong> {{ hotel.descricao }}</p>
+            <p><strong>Comodidades:</strong> {{ hotel.comodidades }}</p>
         </div>
+        
+        {% if hotel.img %}
+            <img src="{{ hotel.img.url }}" alt="Imagem do Hotel">
+        {% else %}
+            <p>Nenhuma imagem do hotel disponível</p>
+        {% endif %}
+        
 
-        <h3>Quartos Disponíveis</h3>
+        <h2>Quartos Disponíveis</h2>
 
-       <div class="quarto-lista">
+       <div class="room-card">
+
             {% if hotel.quartos %}
                 {% for quarto in hotel.quartos.all %}
                     <div class="cartao-quarto">
@@ -31,7 +34,7 @@
                         {% endif %}
 
                         <h4>{{ quarto.RoomType}}</h4>
-                        <p>Preço: R$ {{ quarto.preco_por_noite }}</p>
+                        <p class="room-price">Preço: R$ {{ quarto.preco_por_noite }}</p>
                         <a href="{% url 'cadastro_hotel:reserva_quarto' quarto.pk %}" class="btn">Reservar</a>
 
                     </div>

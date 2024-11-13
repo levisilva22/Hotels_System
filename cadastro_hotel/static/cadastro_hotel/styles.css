@@ -1,4 +1,4 @@
-/* Estilos gerais */
+/* Estilos Gerais */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     line-height: 1.6;
     background-color: #f5f5f5;
 }
@@ -14,6 +14,11 @@ body {
 a {
     text-decoration: none;
     color: #0071c2;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #005c99;
 }
 
 .container {
@@ -26,12 +31,15 @@ a {
 header {
     background-color: #003580;
     padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header .logo a {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
-    color: white;
+    color: #fff;
 }
 
 header nav ul {
@@ -41,7 +49,15 @@ header nav ul {
 }
 
 header nav ul li a {
-    color: white;
+    color: #fff;
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
 }
 
 .auth-links {
@@ -52,17 +68,16 @@ header nav ul li a {
 
 .user-greeting {
     color: white;
-    margin-right: 15px;
     font-size: 16px;
     font-weight: bold;
+    margin-right: 15px;
 }
 
 .auth-links a {
     color: white;
     background-color: #0071c2;
-    padding: 5px 10px;
-    border-radius: 3px;
-    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -72,63 +87,134 @@ header nav ul li a {
 
 /* Main Content */
 main .container {
-    padding: 20px 0;
+    padding: 40px 0;
 }
 
 /* Estilos para o formulário de pagamento */
 form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     margin: 0 auto;
+    font-size: 15px;
 }
 
 form label {
     display: block;
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
     color: #333;
 }
 
 form input[type="text"],
 form input[type="date"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
     border: 1px solid #ddd;
-    border-radius: 3px;
+    border-radius: 5px;
+    font-size: 14px;
 }
 
 form button {
     background-color: #0071c2;
     color: white;
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 form button:hover {
     background-color: #005c99;
 }
 
-/* Footer */
-footer {
-    background-color: #003580;
-    color: white;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 20px;
-}
-
-.form-container{
+/* Estilo de Cartões de Quarto */
+.room-card {
+    background-color: #f9f9f9;
+    padding: 10px; /* Menos padding */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    margin-bottom: 12px; /* Menor margem inferior */
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    width: 220px; /* Reduzido a largura do card */
+    max-width: 100%; /* Garante que o card não ultrapasse a largura da tela */
 }
 
-form {
-    width: 48%;
+.room-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.room-card img {
+    width: 70%; /* Ajusta a largura da imagem */
+    height: auto;
+    border-radius: 2px;
+}
+
+.room-card p {
+    font-size: 12px; /* Texto menor */
+    color: #555;
+    margin-bottom: 8px; /* Menor margem inferior */
+}
+
+.room-card .room-price {
+    font-size: 16px; /* Texto menor */
+    font-weight: bold;
+    color: #0071c2;
+    margin-bottom: 8px;
+}
+
+/* Botão de Reservar */
+.room-card .reserve-btn {
+    background-color: #0071c2;
+    color: white;
+    padding: 6px 12px; /* Botão com menos padding */
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.room-card .reserve-btn:hover {
+    background-color: #005c99;
+}
+
+/* Container Principal dos Quartos */
+.room-section {
+    background-color: #fff;
+    padding: 15px; /* Menos padding */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    width: 70%; /* Reduzido a largura da seção */
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto; /* Centraliza a seção */
+}
+
+.room-section h2 {
+    font-size: 18px; /* Título menor */
+    color: #003580;
+    margin-bottom: 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #0071c2;
+    padding-bottom: 5px;
+}
+
+/* Estilo de Imagem */
+.room-section img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 12px;
 }

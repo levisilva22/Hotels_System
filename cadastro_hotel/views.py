@@ -14,7 +14,7 @@ from command import Invoker, ReservaCommand, ResevationCanceled
 """ Padrão de projeto Singleton implementado"""
 def lista_hotel(request):
     
- 
+
     hotel_list = HotelListingManager()
     hotel_list.hotels
     

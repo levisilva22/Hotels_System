@@ -39,3 +39,23 @@ Providing support to customers for booking-related inquiries;
 
 Analytics and Reporting:
 Generating reports on bookings, occupancy rates, and revenue.
+=================================================================
+
+Patterns Project
+
+Foram implementados três padrões de projeto Strategy - Command - Singleton
+
+O padrão Strategy na view confirmar_reserva. A ideia é criar um preço dinâmico para os quartos
+com base na padrão strategy, adicionando estratégias para calcular o preço dinamico apartir das condições da reserva. Exemplo: Reserva feita com 30 dias de antecência recebe 10% desconto; reserva feita em um mês de alta temporada recebe um aumento no preço.
+
+O padrão de projeto Command também foi implementado na view confirmar_reserva.
+A ideia inicial é criar uma reserva a partir do Invoker - interface do padrão command - 
+dentro da view antes de salvar o fomulário é feita a criação da reserva pelo método e depois 
+a reserva é salva.
+
+O padrão singleton foi criar na view lista_hotel.
+A ideia é apenas deixar uma instância da listagem de hotel, para que fique mais organizado 
+quando outros usuários criem um hotel, assim os hotéis criados possuiram apenas um instância 
+mantendo uma facilidade para manter o controle.
+
+=========================================================================
